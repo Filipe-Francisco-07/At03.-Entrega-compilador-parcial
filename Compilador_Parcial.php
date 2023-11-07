@@ -1,5 +1,5 @@
 <?php
-//gramatica
+//gramaticaaaaaaaaaaaaaaaaaaaaaaaaa
 define('PROGRAMA', 0);
 define('PROGRAMA_', 1);
 define('LISTA_VAR', 2);
@@ -91,7 +91,8 @@ class SLR {
                 'ACTION' => ['v' => 'R 3 5', 'pv' => 'R 3 5', 'ac' => 'R 3 5'],
             ],
             14 => [
-                'ACTION' => ['id' => 'S 27'],
+                'ACTION' => ['id' => 'S 27','char' => 'S 15'],
+                'GOTO' => [BLOCO => 7, COMANDO => 19, PRINTA => 20, ATRIBUICAO => 21, IFI => 22, EXPLOG => 23],
             ],
             15 => [
                 'ACTION' => ['id' => 'S 28'],
@@ -100,7 +101,7 @@ class SLR {
                 'ACTION' => ['id' => 'S 29'],
             ],
             17 => [
-                'ACTION' => ['v' => 'R 3 4', 'pv' => 'R 3 4', 'ac' => 'R 3 4'],
+                'ACTION' => ['v' => 'R 3 4', 'pv' => 'R 3 4', 'ac' => 'S 20'],
                 'GOTO' => [BLOCO => 30, COMANDO => 19, PRINTA => 20, ATRIBUICAO => 21, IFI => 22, EXPLOG => 23],
             ],
             18 => [
@@ -134,7 +135,8 @@ class SLR {
                 'ACTION' => ['fp' => 'S 38'],
             ],
             27 => [
-                'ACTION' => ['fp' => 'R 3 17', 'v' =>'S 7'],
+                'ACTION' => [ 'v' =>'R 1 7', 'fp' => 'R 3 17'],
+                'GOTO' => [BLOCO => 17,COMANDO => 7],
             ],
             28 => [
                 'ACTION' => ['v' => 'R 3 5', 'pv' => 'R 3 5', 'ac' => 'R 3 5'],
@@ -291,6 +293,7 @@ $q0 = 'q0';
 $count = 0;
 $pos1 = 0;
 $pos2 = 0;
+$index = 0;
 
 $finais = array('q2', 'q3','q32','q36','q37', 'q38', 'q39','q40','q41','q42', 'q43', 'q44','q45','q46','q47', 'q48', 'q50','q51','q52','q53', 'q54', 'q55','q56','q57','q58','q65','q66','q70','q72');
 
@@ -326,75 +329,94 @@ for($j = 0; $j < $tam; $j++){
         switch ($estado) {
             case 'q2':
                 $token = "if";
-                $tokens = $token;
+                $tokens[$index] = $token;
+                $index++;
+
                 break;
             case 'q3':
                 $token = "id";
-                $tokens = $token;
+                $tokens[$index] = $token;
+                $index++;
                 break;
             case 'q32':
                 $token ="printa";
-                $tokens = $token;
+                $tokens[$index] = $token;
+                $index++;
                 break;
             case 'q37':
                 $token ="const";
-                $tokens = $token;
+                $tokens[$index] = $token;
+                $index++;
                 break;
             case 'q38':
                 $token ="mais";
-                $tokens = $token;
+                $tokens[$index] = $token;
+                $index++;
                 break;
             case 'q40':
                 $token ="menos";
-                $tokens = $token;
+                $tokens[$index] = $token;
+                $index++;
                 break;
             case 'q43':
                 $token ="barra";
-                $tokens = $token;
+                $tokens[$index] = $token;
+                $index++;
                 break;
             case 'q44':
                 $token ="pv";
-                $tokens = $token;
+                $tokens[$index] = $token;
+                $index++;
                 break;
             case 'q45':
                 $token ="maior";
-                $tokens = $token;
+                $tokens[$index] = $token;
+                $index++;
                 break;
             case 'q47':
                 $token ="menor";
-                $tokens = $token;
+                $tokens[$index] = $token;
+                $index++;
                 break;
             case 'q52':
                 $token ="ap";
-                $tokens = $token;
+                $tokens[$index] = $token;
+                $index++;
                 break;
             case 'q53':
                 $token ="fp";
-                $tokens = $token;
+                $tokens[$index] = $token;
+                $index++;
                 break;
             case 'q56':
                 $token ="ac";
-                $tokens = $token;
+                $tokens[$index] = $token;
+                $index++;
                 break;
             case 'q57':
                 $token ="fc";
-                $tokens = $token;
+                $tokens[$index] = $token;
+                $index++;
                 break;
             case 'q65':
                 $token ="programa";
-                $tokens = $token;
+                $tokens[$index] = $token;
+                $index++;
                 break;
             case 'q66':
                 $token ="v";
-                $tokens = $token;
+                $tokens[$index] = $token;
+                $index++;
                 break;
             case 'q70':
                 $token ="char";
-                $tokens = $token;
+                $tokens[$index] = $token;
+                $index++;
                 break;
             case 'q72':
                 $token ="int";
-                $tokens = $token;
+                $tokens[$index] = $token;
+                $index++;
                 break;
             default:
                 echo "<br>O estado não é final.";
@@ -414,11 +436,16 @@ echo '<br><a href="index.html">digitar novamente</a>';
     echo "<br>";
 
     $slr = new SLR();
+    $tok;
+    $index++;
 
-    $tokens = '$';
+    $tokens[$index]= '$';
     
-    $entrada = array('programa', 'id', 'ap', 'int', 'id', 'fp', 'ac', 'printa', 'ap', 'id', 'fp', 'pv', 'fc', '$');
-    if ($slr->parser($entrada))
+    foreach($tokens as $tok){
+        echo($tok.'<br>');
+    }
+
+    if ($slr->parser($tokens))
         echo "\nLinguagem aceita";
     else
         echo "\nErro ao processar entrada";
