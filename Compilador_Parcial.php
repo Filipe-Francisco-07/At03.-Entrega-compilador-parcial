@@ -178,7 +178,7 @@ $sigma = array('a','b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', '
 $num = array(0,1,2,3,4,5,6,7,8,9);
 $tokens = [];
 
-$delta = array('q0'=>array('a'=>'q3', 'b'=>'q3', 'c'=>'q67', 'd'=>'q3', 'e'=>'q3','f'=> 'q3', 'g'=>'q3', 'h'=>'q3','i'=>'q1', 'j'=>'q3', 'k'=>'q3', 'l'=>'q3', 'm'=>'q3', 'n'=>'q3', 'o'=>'q3', 'p'=>'q28', 'q'=>'q3', 'r'=>'q3', 's'=>'q3', 't'=>'q3', 'u'=>'q3', 'v'=>'q3', 'w'=>'q3', 'x'=>'q3', 'y'=>'q3', 'z'=>'q3',0 => 'q37', 1 => 'q37', 2 => 'q37', 3 => 'q37', 4 => 'q37', 5 => 'q37', 6 => 'q37', 7 => 'q37', 8 => 'q37', 9 => 'q37', '+' => 'q38', '-' => 'q40','*' => 'q42','/' => 'q43',';' => 'q44','>' => 'q45','<' => 'q47','=' => 'q49','^' => 'q51','(' => 'q52',')' => 'q53','[' => 'q54',']' => 'q55','{' => 'q56','}' => 'q57',',' => 'q66'),
+$delta = array('q0'=>array('a'=>'q3', 'b'=>'q3', 'c'=>'q67', 'd'=>'q3', 'e'=>'q3','f'=> 'q3', 'g'=>'q3', 'h'=>'q3','i'=>'q1', 'j'=>'q3', 'k'=>'q3', 'l'=>'q3', 'm'=>'q3', 'n'=>'q3', 'o'=>'q3', 'p'=>'q28', 'q'=>'q3', 'r'=>'q3', 's'=>'q3', 't'=>'q3', 'u'=>'q3', 'v'=>'q3', 'w'=>'q3', 'x'=>'q3', 'y'=>'q3', 'z'=>'q3',0 => 'q37', 1 => 'q37', 2 => 'q37', 3 => 'q37', 4 => 'q37', 5 => 'q37', 6 => 'q37', 7 => 'q37', 8 => 'q37', 9 => 'q37', '+' => 'q38', '-' => 'q40','*' => 'q42','/' => 'q43',';' => 'q44','>' => 'q45','<' => 'q47','=' => 'q49','^' => 'q51','(' => 'q52',')' => 'q53','[' => 'q54',']' => 'q55','{' => 'q56','}' => 'q57',',' => 'q66','\n'=> 'q0',"" => 'q0'),
               //if (2)
                'q1'=>array('a'=>'q3', 'b'=>'q3', 'c'=>'q3', 'd'=>'q3', 'e'=>'q3','f'=> 'q2', 'g'=>'q3', 'h'=>'q3','i'=>'q3', 'j'=>'q3', 'k'=>'q3', 'l'=>'q3', 'm'=>'q3', 'n'=>'q71', 'o'=>'q3', 'p'=>'q3', 'q'=>'q3', 'r'=>'q3', 's'=>'q3', 't'=>'q3', 'u'=>'q3', 'v'=>'q3', 'w'=>'q3', 'x'=>'q3', 'y'=>'q3', 'z'=>'q3', 0 => 'q3', 1 => 'q3', 2 => 'q3', 3 => 'q3', 4 => 'q3', 5 => 'q3', 6 => 'q3', 7 => 'q3', 8 => 'q3', 9 => 'q3'),
                'q2'=>array('a'=>'q3', 'b'=>'q3', 'c'=>'q3', 'd'=>'q3', 'e'=>'q3','f'=> 'q3', 'g'=>'q3', 'h'=>'q3','i'=>'q3', 'j'=>'q3', 'k'=>'q3', 'l'=>'q3', 'm'=>'q3', 'n'=>'q3', 'o'=>'q3', 'p'=>'q3', 'q'=>'q3', 'r'=>'q3', 's'=>'q3', 't'=>'q3', 'u'=>'q3', 'v'=>'q3', 'w'=>'q3', 'x'=>'q3', 'y'=>'q3', 'z'=>'q3', 0 => 'q3', 1 => 'q3', 2 => 'q3', 3 => 'q3', 4 => 'q3', 5 => 'q3', 6 => 'q3', 7 => 'q3', 8 => 'q3', 9 => 'q3'),
@@ -275,7 +275,7 @@ for($j = 0; $j < $tam; $j++){
 
         switch ($estado) {
             case 'q2':
-                $token = "if";
+                $token = "ifi";
                 $tokens[$index] = $token;
                 $index++;
 
@@ -394,11 +394,11 @@ echo '<br><a href="index.html">digitar novamente</a>';
     foreach($tokens as $tok){
         echo($tok.'<br>');
     }
-    // $entrada = array('programa','id','ap','fp','ac','ifi','ap','id','maior','id','fp','ac','printa','ap','id','fp','pv','fc','fc','$');
+    // $entrada = array('programa','id','ap','int','id','fp','ac','ifi','ap','id','maior','const','fp','ac','printa','ap','id','fp','pv','fc','fc','$'); programa nomeprog ( int a ) { if ( a > 2 ) { print ( a ) ; } }
     // $entrada = array('programa','id','ap','fp','ac','printa','ap','id','fp','pv','fc','fc','$');
 
-    $entrada = array('programa','id','ap','fp','ac','printa','ap','id','fp','pv','fc','fc','$');
-    if ($slr->parser($entrada))
+    $entrada = array('programa','id','ap','int','id','fp','ac','ifi','ap','id','maior','const','fp','ac','printa','ap','id','fp','pv','fc','fc','$');
+    if ($slr->parser($tokens))
         echo "\nLinguagem aceita";
     else
         echo "\nErro ao processar entrada";
