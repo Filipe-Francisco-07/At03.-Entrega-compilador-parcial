@@ -3,48 +3,18 @@
 /*gramatica
 
 PROGRAMA → programa id ap LISTA_VAR fp ab COMANDOS fc
-LISTA_VAR  →LISTA_VAR v VARIAVEL | ε 
+LISTA_VAR  → LISTA_VAR v VARIAVEL | ε 
 VARIAVEL  → TIPO id
-TIPO  → int | char | num
+TIPO  → int | char | const
 COMANDOS  → COMANDOS BLOCO | BLOCO
-BLOCO → ATIBUICAO pv | PAR pv
+BLOCO → ATRIBUICAO pv | VAR pv
 ATIBUICAO → id igual EXP
 EXP →EXP mais EXP2 | EXP2
 EXP2 → EXP2 menos EXP3 | EXP3
 EXP3 → ap EXP fp | id
-*/
-/*
-define('PROGRAMA', 0);
-define('PROGRAMA_', 1);
-define('LISTA_VAR', 2);
-define('VARIAVEL', 3);
-define('TIPO', 4);
-define('BLOCO', 5);
-define('COMANDO', 6);
-define('PRINTA', 7);
-define('ATRIBUICAO', 8);
-define('EXP', 9);
-define('EXP2', 10);
-define('EXP3', 11);
-define('IFI', 12);
-
-define('NAO_TERMINAIS', [
-    PROGRAMA => '<PROGRAMA>',
-    PROGRAMA_ => '<PROGRAMA\'>',
-    LISTA_VAR => '<LISTA_VAR>',
-    VARIAVEL => '<VAR>',
-    TIPO => '<TIPO>',
-    BLOCO => '<BLOCO>',
-    COMANDO => '<COMANDO>',
-    PRINTA => '<PRINT>',
-    ATRIBUICAO => '<ATRIBUICAO>',
-    EXP => '<EXP>',
-    EXP2 => '<EXP2>',
-    EXP3 => '<EXP3>',
-    IFI => '<IF>',
-
-]);
-
+IFI →  if ap EXP fp ac COMANDOS fc
+PRINTA → print ap id fp pv
+FOR → for ap EXP fp ac COMANDOS fc
 */
 
 define('NAO_TERMINAIS',[0=>'TIPO',
@@ -152,10 +122,8 @@ class SLR{
             67=>['ACTION'=>['fp' => 'S 68'],'GOTO'=>[]],
             68=>['ACTION'=>['ac' => 'R 16 4'],'GOTO'=>[]]
 
-        
-        
         );
-    
+        
           //R 8 4 'ap','id','fp','pv','fc','fc','$');
         }
     /***
@@ -178,7 +146,7 @@ class SLR{
                     array_push($pilha,$acao[1]);
                     $i++;
                     break;
-                case 'R': // Reduce - Desempilha e Desvia (para indicar a redução)  
+                case 'R': // Reduce - Desempilha e usa o GOTO para desviar
                     for ($j = 0; $j<$acao[1]; $j++)
                         array_pop($pilha);
                     echo ' | Reduzio para '.NAO_TERMINAIS[$acao[2]];                    
@@ -212,6 +180,7 @@ $delta = array('q0'=>array('a'=>'q3', 'b'=>'q3', 'c'=>'q67', 'd'=>'q3', 'e'=>'q3
               'q30'=>array('a'=>'q3', 'b'=>'q3', 'c'=>'q3', 'd'=>'q3', 'e'=>'q3','f'=> 'q3', 'g'=>'q3', 'h'=>'q3','i'=>'q3', 'j'=>'q3', 'k'=>'q3', 'l'=>'q3', 'm'=>'q3', 'n'=>'q31', 'o'=>'q3', 'p'=>'q3', 'q'=>'q3', 'r'=>'q3', 's'=>'q3', 't'=>'q3', 'u'=>'q3', 'v'=>'q3', 'w'=>'q3', 'x'=>'q3', 'y'=>'q3', 'z'=>'q3', 0 => 'q3', 1 => 'q3', 2 => 'q3', 3 => 'q3', 4 => 'q3', 5 => 'q3', 6 => 'q3', 7 => 'q3', 8 => 'q3', 9 => 'q3'),
               'q31'=>array('a'=>'q3', 'b'=>'q3', 'c'=>'q3', 'd'=>'q3', 'e'=>'q3','f'=> 'q3', 'g'=>'q3', 'h'=>'q3','i'=>'q3', 'j'=>'q3', 'k'=>'q3', 'l'=>'q3', 'm'=>'q3', 'n'=>'q3', 'o'=>'q3', 'p'=>'q3', 'q'=>'q3', 'r'=>'q3', 's'=>'q3', 't'=>'q32', 'u'=>'q3', 'v'=>'q3', 'w'=>'q3', 'x'=>'q3', 'y'=>'q3', 'z'=>'q3', 0 => 'q3', 1 => 'q3', 2 => 'q3', 3 => 'q3', 4 => 'q3', 5 => 'q3', 6 => 'q3', 7 => 'q3', 8 => 'q3', 9 => 'q3'),
               'q32'=>array('a'=>'q3', 'b'=>'q3', 'c'=>'q3', 'd'=>'q3', 'e'=>'q3','f'=> 'q3', 'g'=>'q3', 'h'=>'q3','i'=>'q3', 'j'=>'q3', 'k'=>'q3', 'l'=>'q3', 'm'=>'q3', 'n'=>'q3', 'o'=>'q3', 'p'=>'q3', 'q'=>'q3', 'r'=>'q3', 's'=>'q3', 't'=>'q3', 'u'=>'q3', 'v'=>'q3', 'w'=>'q3', 'x'=>'q3', 'y'=>'q3', 'z'=>'q3', 0 => 'q3', 1 => 'q3', 2 => 'q3', 3 => 'q3', 4 => 'q3', 5 => 'q3', 6 => 'q3', 7 => 'q3', 8 => 'q3', 9 => 'q3'),
+              //for
               'q33'=>array('a'=>'q3', 'b'=>'q3', 'c'=>'q3', 'd'=>'q3', 'e'=>'q3','f'=> 'q3', 'g'=>'q3', 'h'=>'q3','i'=>'q3', 'j'=>'q3', 'k'=>'q3', 'l'=>'q3', 'm'=>'q3', 'n'=>'q3', 'o'=>'q34', 'p'=>'q3', 'q'=>'q3', 'r'=>'q3', 's'=>'q3', 't'=>'q3', 'u'=>'q3', 'v'=>'q3', 'w'=>'q3', 'x'=>'q3', 'y'=>'q3', 'z'=>'q3', 0 => 'q3', 1 => 'q3', 2 => 'q3', 3 => 'q3', 4 => 'q3', 5 => 'q3', 6 => 'q3', 7 => 'q3', 8 => 'q3', 9 => 'q3'),
               'q34'=>array('a'=>'q3', 'b'=>'q3', 'c'=>'q3', 'd'=>'q3', 'e'=>'q3','f'=> 'q3', 'g'=>'q3', 'h'=>'q3','i'=>'q3', 'j'=>'q3', 'k'=>'q3', 'l'=>'q3', 'm'=>'q3', 'n'=>'q3', 'o'=>'q3', 'p'=>'q3', 'q'=>'q3', 'r'=>'q35', 's'=>'q3', 't'=>'q3', 'u'=>'q3', 'v'=>'q3', 'w'=>'q3', 'x'=>'q3', 'y'=>'q3', 'z'=>'q3', 0 => 'q3', 1 => 'q3', 2 => 'q3', 3 => 'q3', 4 => 'q3', 5 => 'q3', 6 => 'q3', 7 => 'q3', 8 => 'q3', 9 => 'q3'),
               'q35'=>array('a'=>'q3', 'b'=>'q3', 'c'=>'q3', 'd'=>'q3', 'e'=>'q3','f'=> 'q3', 'g'=>'q3', 'h'=>'q3','i'=>'q3', 'j'=>'q3', 'k'=>'q3', 'l'=>'q3', 'm'=>'q3', 'n'=>'q3', 'o'=>'q3', 'p'=>'q3', 'q'=>'q3', 'r'=>'q3', 's'=>'q3', 't'=>'q3', 'u'=>'q3', 'v'=>'q3', 'w'=>'q3', 'x'=>'q3', 'y'=>'q3', 'z'=>'q3', 0 => 'q3', 1 => 'q3', 2 => 'q3', 3 => 'q3', 4 => 'q3', 5 => 'q3', 6 => 'q3', 7 => 'q3', 8 => 'q3', 9 => 'q3'),
@@ -232,7 +201,7 @@ $delta = array('q0'=>array('a'=>'q3', 'b'=>'q3', 'c'=>'q67', 'd'=>'q3', 'e'=>'q3
               'q72'=>array('a'=>'q3', 'b'=>'q3', 'c'=>'q3', 'd'=>'q3', 'e'=>'q3','f'=> 'q3', 'g'=>'q3', 'h'=>'q3','i'=>'q3', 'j'=>'q3', 'k'=>'q3', 'l'=>'q3', 'm'=>'q3', 'n'=>'q3', 'o'=>'q3', 'p'=>'q3', 'q'=>'q3', 'r'=>'q70', 's'=>'q3', 't'=>'q3', 'u'=>'q3', 'v'=>'q3', 'w'=>'q3', 'x'=>'q3', 'y'=>'q3', 'z'=>'q3', 0 => 'q3', 1 => 'q3', 2 => 'q3', 3 => 'q3', 4 => 'q3', 5 => 'q3', 6 => 'q3', 7 => 'q3', 8 => 'q3', 9 => 'q3'),
              
 
-              //constante (37)
+              //const (37)
               'q37'=>array(0 => 'q37', 1 => 'q37', 2 => 'q37', 3 => 'q37', 4 => 'q37', 5 => 'q37', 6 => 'q37', 7 => 'q37', 8 => 'q37', 9 => 'q37'),
               //+ (38)
               'q38'=>array('+' => 'q39'),
@@ -452,13 +421,11 @@ echo '<br><a href="index.html">digitar novamente</a>';
     foreach($tokens as $tok){
         echo($tok.'<br>');
     }
-    // $entrada = array('programa','id','ap','int','id','fp','ac','ifi','ap','id','maior','const','fp','ac','printa','ap','id','fp','pv','fc','fc','$'); 
 
-    // programa nomeprog ( int a ) { for ( int i = 0 ; i < 10 ; i ++ ) { print ( a ) ; } }
-
-    // $entrada = array('programa','id','ap','fp','ac','printa','ap','id','fp','pv','fc','fc','$');       
+    // programa nomeprog ( int a ) { for ( int i = 0 ; i < 10 ; i ++ ) { print ( a ) ; } } 
 
    //  programa nomeprog ( int a ) { if ( a > 10 ) { print ( a ) ; } }
+   //f
     if ($slr->parser($tokens))
         echo "\nLinguagem aceita";
     else
