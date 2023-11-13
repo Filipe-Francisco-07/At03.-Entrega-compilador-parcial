@@ -1,7 +1,6 @@
 <?php
 
 /*gramatica
-
 PROGRAMA → programa id ap LISTA_VAR fp ab COMANDOS fc
 LISTA_VAR  → LISTA_VAR v VARIAVEL | ε 
 VARIAVEL  → TIPO id
@@ -149,7 +148,7 @@ class SLR{
                 case 'R': // Reduce - Desempilha e usa o GOTO para desviar
                     for ($j = 0; $j<$acao[1]; $j++)
                         array_pop($pilha);
-                    echo ' | Reduzio para '.NAO_TERMINAIS[$acao[2]];                    
+                    echo ' | Redução para '.NAO_TERMINAIS[$acao[2]];                    
                     $desvio = $this->afd[end($pilha)]['GOTO'][$acao[2]][$entrada[$i]];
                     array_push($pilha,$desvio);
                     break;
@@ -430,6 +429,6 @@ echo '<br><a href="index.html">digitar novamente</a>';
         echo "\nLinguagem aceita";
     else
         echo "\nErro ao processar entrada";
-
+ 
 
 ?>
