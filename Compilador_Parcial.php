@@ -58,37 +58,38 @@ define('NAO_TERMINAIS',[0=>'TIPO',
                         8=>'EXP2',
                         9=>'EXP3',
                         10=>'IFI',   
-                        11=>'PRINTA']);
+                        11=>'PRINTA',
+                        12=>'FOR']);
 
 class SLR{
     private $afd;
 
     public function __construct(){
         
-        //  $entrada = array('programa','id','ap','fp','ac','if','ap','id','maior','id','fp','ac','printa','ap','id','fp','pv','fc','fc','$');
+        //  $entrada = 'q2', programa nomeprog ( int a ) { for ( int i = 0 ; i < 10 ; i ++ ) { print ( a ) ; } }
 
         $this->afd = array(
-            0=>['ACTION'=>['programa'=>'S 2'],    //S2 'id','ap','fp','ac','if','ap','id','maior','id','fp','ac','printa','ap','id','fp','pv','fc','fc','$');
+            0=>['ACTION'=>['programa'=>'S 2'],    // S 2 nomeprog ( int a ) { for ( int i = 0 ; i < 10 ; i ++ ) { print ( a ) ; } }
                   'GOTO'=>[6=>['$'=>1]]], 
             1=>['ACTION'=>['$'=>'ACC '],'GOTO'=>[]],
-            2=>['ACTION'=>['id'=>'S 3'],'GOTO'=>[]], //S3 'ap','fp','ac','if','ap','id','maior','id','fp','ac','printa','ap','id','fp','pv','fc','fc','$');
-            3=>['ACTION'=>['ap'=>'S 4'],'GOTO'=>[]],  //S4 'fp','ac','if','ap','id','maior','id','fp','ac','printa','ap','id','fp','pv','fc','fc','$');
-            4=>['ACTION'=>['int'=>'S 5','char'=>'S 6', 'num'=>'S 7','fp'=>'R 0 2'],  //R0 'fp','ac','if','ap','id','maior','id','fp','ac','printa','ap','id','fp','pv','fc','fc','$');
+            2=>['ACTION'=>['id'=>'S 3'],'GOTO'=>[]],  // S 3 ( int a ) { for ( int i = 0 ; i < 10 ; i ++ ) { print ( a ) ; } }
+            3=>['ACTION'=>['ap'=>'S 4'],'GOTO'=>[]],  // S 4  int a ) { for ( int i = 0 ; i < 10 ; i ++ ) { print ( a ) ; } }
+            4=>['ACTION'=>['int'=>'S 5','char'=>'S 6', 'num'=>'S 7','fp'=>'R 0 2'],  // S 5 a ) { for ( int i = 0 ; i < 10 ; i ++ ) { print ( a ) ; } }
                   'GOTO'=>[0=>['id'=>8],1=>['v'=>10,'fp'=>10,'pv'=>10],2=>['v'=>13,'fp'=>15]]],
-            5=>['ACTION'=>['id'=>'R 1 0'],'GOTO'=>[]],
+            5=>['ACTION'=>['id'=>'R 1 0'],'GOTO'=>[]], // S 5 a ) { for ( int i = 0 ; i < 10 ; i ++ ) { print ( a ) ; } }
             6=>['ACTION'=>['id'=>'R 1 0'],'GOTO'=>[]],
             7=>['ACTION'=>['id'=>'R 1 0'],'GOTO'=>[]],
-            8=>['ACTION'=>['id'=>'S 9'],'GOTO'=>[]],
-            9=>['ACTION'=>['pv'=>'R 2 1','fp'=>'R 2 1','v'=>'R 2 1'],'GOTO'=>[]],
-            10=>['ACTION'=>['fp'=>'R 1 2','v'=>'R 1 2'],'GOTO'=>[]],
+            8=>['ACTION'=>['id'=>'S 9'],'GOTO'=>[]], // S 9 ) { for ( int i = 0 ; i < 10 ; i ++ ) { print ( a ) ; } }
+            9=>['ACTION'=>['pv'=>'R 2 1','fp'=>'R 2 1','v'=>'R 2 1'],'GOTO'=>[]], // S 9 ) { for ( int i = 0 ; i < 10 ; i ++ ) { print ( a ) ; } }
+            10=>['ACTION'=>['fp'=>'R 1 2','v'=>'R 1 2'],'GOTO'=>[]], // S 9 ) { for ( int i = 0 ; i < 10 ; i ++ ) { print ( a ) ; } }
             11=>['ACTION'=>['fp'=>'R 3 2','v'=>'R 3 2'],'GOTO'=>[]],
             12=>['ACTION'=>['pv'=>'S 37'],'GOTO'=>[]],
             13=>['ACTION'=>['v'=>'S 14'],'GOTO'=>[]],
             14=>['ACTION'=>['int'=>'S 5','char'=>'S 6','num'=>'S 7'],
                    'GOTO'=>[0=>['id'=>8],2=>['v'=>11,'pv'=>11]]],
-            15=>['ACTION'=>['fp'=>'S 16'],'GOTO'=>[]],  //S 16 'ac','if','ap','id','maior','id','fp','ac','printa','ap','id','fp','pv','fc','fc','$');
-            16=>['ACTION'=>['ac'=>'S 17'],'GOTO'=>[]],  //S 17 'if','ap','id','maior','id','fp','ac','printa','ap','id','fp','pv','fc','fc','$');
-            17=>['ACTION'=>['id'=>'S 18','int'=>'S 5','char'=>'S 6','num'=>'S 7','ap'=>'S 21', 'printa' => 'S 41', 'ifi' => 'S 45'], //S 17 'if','ap','id','maior','id','fp','ac','printa','ap','id','fp','pv','fc','fc','$');   R 8 4 'ap','id','fp','pv','fc','fc','$');
+            15=>['ACTION'=>['fp'=>'S 16'],'GOTO'=>[4=>['ac'=> 16]]],  // S 16 { for ( int i = 0 ; i < 10 ; i ++ ) { print ( a ) ; } }
+            16=>['ACTION'=>['ac'=>'S 17'],'GOTO'=>[]],  // S 17 for ( int i = 0 ; i < 10 ; i ++ ) { print ( a ) ; } }
+            17=>['ACTION'=>['id'=>'S 18','int'=>'S 5','char'=>'S 6','num'=>'S 7','ap'=>'S 21', 'printa' => 'S 41', 'ifi' => 'S 45', 'for' => 'S 55'], // S 55 ( int i = 0 ; i < 10 ; i ++ ) { print ( a ) ; } }
                    'GOTO'=>[0=>['id'=>8],1=>['v'=>12,'fp'=>12,'pv'=>12],4=>['ap'=> 41,'id'=>36,'fc'=>36,'int'=>36,'char'=>36,'num'=>36],5=>['pv'=>39],9=>['mais'=>24,'menos'=>24,'fp'=>24,'pv'=>24],3=>['fc'=>32,'int'=>34,'char'=>34,'num'=>34,'id'=>34],8=>['mais'=>28,'menos'=>29,'fp'=>28,'pv'=>28],7=>['mais'=>25,'fp'=>38,'pv'=>38]]],
             18=>['ACTION'=>['igual'=>'S 19'],'GOTO'=>[]],
             19=>['ACTION'=>['id'=>'S 20','ap'=>'S 21'],
@@ -128,11 +129,32 @@ class SLR{
             47=>['ACTION'=>['maior'=>'S 48','menor'=>'S 48','+'=>'S'],'GOTO'=>[]], 
             48=>['ACTION'=>['id'=>'S 49', 'const' => 'S 49'],'GOTO'=>[]],
             49=>['ACTION'=>['fp'=>'S 50'],'GOTO'=>[]],
-            50=>['ACTION'=>['ac'=>'S 51'],'GOTO'=>[]],
-            51=>['ACTION'=>['printa'=>'S 52'],'GOTO'=>[]],
+            50=>['ACTION'=>['ac'=>'R 8 4'],'GOTO'=>[]],
             52=>['ACTION'=>['ap'=>'R 8 4'],'GOTO'=>[]],
             53=>['ACTION'=>['fc'=>'R 8 4'],'GOTO'=>[]],
-            54=>['ACTION'=>['$'=>'R 9 6'],'GOTO'=>[]]);
+            54=>['ACTION'=>['$'=>'R 9 6'],'GOTO'=>[]],             //int i;
+                                                                //int j = 10;
+                                                                // for(i = 0; i < j; i++){
+                                                                //}
+            55=>['ACTION'=>['ap'=>'S 56'],'GOTO'=>[]], // S 56 int i = 0 ; i < 10 ; i ++ ) { print ( a ) ; } }
+            56=>['ACTION'=>['int'=>'S 57','id'=>'S 58'],'GOTO'=>[]], // S 57 i = 0 ; i < 10 ; i ++ ) { print ( a ) ; } }
+            57=>['ACTION'=>['id'=>'S 58'],'GOTO'=>[]], // S 58 = 0 ; i < 10 ; i ++ ) { print ( a ) ; } }
+
+            58=>['ACTION'=>['igual'=>'S 59'],'GOTO'=>[]], // S 59  0 ; i < 10 ; i ++ ) { print ( a ) ; } }
+            59=>['ACTION'=>['const'=>'S 60','id'=>'S 60'],'GOTO'=>[]], // S 60 ; i < 10 ; i ++ ) { print ( a ) ; } }
+            60=>['ACTION'=>['pv'=>'S 61'],'GOTO'=>[]], // S 61 i < 10 ; i ++ ) { print ( a ) ; } }
+            61=>['ACTION'=>['id'=>'S 62'],'GOTO'=>[]], // S 62 < 10 ; i ++ ) { print ( a ) ; } }
+            62=>['ACTION'=>['menor' => 'S 63','maior' => 'S 63','menorigual' => 'S 63','maiorigual' => 'S 63'],'GOTO'=>[]], // S 63 10 ; i ++ ) { print ( a ) ; } }
+            63=>['ACTION'=>['id' => 'S 64','const' => 'S 64'],'GOTO'=>[]], // S 64 ; i ++ ) { print ( a ) ; } }
+            64=>['ACTION'=>['pv' => 'S 65'],'GOTO'=>[]], // S 65 i ++ ) { print ( a ) ; } }
+            65=>['ACTION'=>['id' => 'S 66'],'GOTO'=>[]], // S 66 ++ ) { print ( a ) ; } }
+            66=>['ACTION'=>['incremento' => 'S 67','decremento' => 'S 67'],'GOTO'=>[]],
+            67=>['ACTION'=>['fp' => 'S 68'],'GOTO'=>[]],
+            68=>['ACTION'=>['ac' => 'R 16 4'],'GOTO'=>[]]
+
+        
+        
+        );
     
           //R 8 4 'ap','id','fp','pv','fc','fc','$');
         }
@@ -178,7 +200,7 @@ $sigma = array('a','b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', '
 $num = array(0,1,2,3,4,5,6,7,8,9);
 $tokens = [];
 
-$delta = array('q0'=>array('a'=>'q3', 'b'=>'q3', 'c'=>'q67', 'd'=>'q3', 'e'=>'q3','f'=> 'q3', 'g'=>'q3', 'h'=>'q3','i'=>'q1', 'j'=>'q3', 'k'=>'q3', 'l'=>'q3', 'm'=>'q3', 'n'=>'q3', 'o'=>'q3', 'p'=>'q28', 'q'=>'q3', 'r'=>'q3', 's'=>'q3', 't'=>'q3', 'u'=>'q3', 'v'=>'q3', 'w'=>'q3', 'x'=>'q3', 'y'=>'q3', 'z'=>'q3',0 => 'q37', 1 => 'q37', 2 => 'q37', 3 => 'q37', 4 => 'q37', 5 => 'q37', 6 => 'q37', 7 => 'q37', 8 => 'q37', 9 => 'q37', '+' => 'q38', '-' => 'q40','*' => 'q42','/' => 'q43',';' => 'q44','>' => 'q45','<' => 'q47','=' => 'q49','^' => 'q51','(' => 'q52',')' => 'q53','[' => 'q54',']' => 'q55','{' => 'q56','}' => 'q57',',' => 'q66','\n'=> 'q0',"" => 'q0'),
+$delta = array('q0'=>array('a'=>'q3', 'b'=>'q3', 'c'=>'q67', 'd'=>'q3', 'e'=>'q3','f'=> 'q33', 'g'=>'q3', 'h'=>'q3','i'=>'q1', 'j'=>'q3', 'k'=>'q3', 'l'=>'q3', 'm'=>'q3', 'n'=>'q3', 'o'=>'q3', 'p'=>'q28', 'q'=>'q3', 'r'=>'q3', 's'=>'q3', 't'=>'q3', 'u'=>'q3', 'v'=>'q3', 'w'=>'q3', 'x'=>'q3', 'y'=>'q3', 'z'=>'q3',0 => 'q37', 1 => 'q37', 2 => 'q37', 3 => 'q37', 4 => 'q37', 5 => 'q37', 6 => 'q37', 7 => 'q37', 8 => 'q37', 9 => 'q37', '+' => 'q38', '-' => 'q40','*' => 'q42','/' => 'q43',';' => 'q44','>' => 'q45','<' => 'q47','=' => 'q49','^' => 'q51','(' => 'q52',')' => 'q53','[' => 'q54',']' => 'q55','{' => 'q56','}' => 'q57',',' => 'q66','\n'=> 'q0',"" => 'q0'),
               //if (2)
                'q1'=>array('a'=>'q3', 'b'=>'q3', 'c'=>'q3', 'd'=>'q3', 'e'=>'q3','f'=> 'q2', 'g'=>'q3', 'h'=>'q3','i'=>'q3', 'j'=>'q3', 'k'=>'q3', 'l'=>'q3', 'm'=>'q3', 'n'=>'q71', 'o'=>'q3', 'p'=>'q3', 'q'=>'q3', 'r'=>'q3', 's'=>'q3', 't'=>'q3', 'u'=>'q3', 'v'=>'q3', 'w'=>'q3', 'x'=>'q3', 'y'=>'q3', 'z'=>'q3', 0 => 'q3', 1 => 'q3', 2 => 'q3', 3 => 'q3', 4 => 'q3', 5 => 'q3', 6 => 'q3', 7 => 'q3', 8 => 'q3', 9 => 'q3'),
                'q2'=>array('a'=>'q3', 'b'=>'q3', 'c'=>'q3', 'd'=>'q3', 'e'=>'q3','f'=> 'q3', 'g'=>'q3', 'h'=>'q3','i'=>'q3', 'j'=>'q3', 'k'=>'q3', 'l'=>'q3', 'm'=>'q3', 'n'=>'q3', 'o'=>'q3', 'p'=>'q3', 'q'=>'q3', 'r'=>'q3', 's'=>'q3', 't'=>'q3', 'u'=>'q3', 'v'=>'q3', 'w'=>'q3', 'x'=>'q3', 'y'=>'q3', 'z'=>'q3', 0 => 'q3', 1 => 'q3', 2 => 'q3', 3 => 'q3', 4 => 'q3', 5 => 'q3', 6 => 'q3', 7 => 'q3', 8 => 'q3', 9 => 'q3'),
@@ -190,8 +212,10 @@ $delta = array('q0'=>array('a'=>'q3', 'b'=>'q3', 'c'=>'q67', 'd'=>'q3', 'e'=>'q3
               'q30'=>array('a'=>'q3', 'b'=>'q3', 'c'=>'q3', 'd'=>'q3', 'e'=>'q3','f'=> 'q3', 'g'=>'q3', 'h'=>'q3','i'=>'q3', 'j'=>'q3', 'k'=>'q3', 'l'=>'q3', 'm'=>'q3', 'n'=>'q31', 'o'=>'q3', 'p'=>'q3', 'q'=>'q3', 'r'=>'q3', 's'=>'q3', 't'=>'q3', 'u'=>'q3', 'v'=>'q3', 'w'=>'q3', 'x'=>'q3', 'y'=>'q3', 'z'=>'q3', 0 => 'q3', 1 => 'q3', 2 => 'q3', 3 => 'q3', 4 => 'q3', 5 => 'q3', 6 => 'q3', 7 => 'q3', 8 => 'q3', 9 => 'q3'),
               'q31'=>array('a'=>'q3', 'b'=>'q3', 'c'=>'q3', 'd'=>'q3', 'e'=>'q3','f'=> 'q3', 'g'=>'q3', 'h'=>'q3','i'=>'q3', 'j'=>'q3', 'k'=>'q3', 'l'=>'q3', 'm'=>'q3', 'n'=>'q3', 'o'=>'q3', 'p'=>'q3', 'q'=>'q3', 'r'=>'q3', 's'=>'q3', 't'=>'q32', 'u'=>'q3', 'v'=>'q3', 'w'=>'q3', 'x'=>'q3', 'y'=>'q3', 'z'=>'q3', 0 => 'q3', 1 => 'q3', 2 => 'q3', 3 => 'q3', 4 => 'q3', 5 => 'q3', 6 => 'q3', 7 => 'q3', 8 => 'q3', 9 => 'q3'),
               'q32'=>array('a'=>'q3', 'b'=>'q3', 'c'=>'q3', 'd'=>'q3', 'e'=>'q3','f'=> 'q3', 'g'=>'q3', 'h'=>'q3','i'=>'q3', 'j'=>'q3', 'k'=>'q3', 'l'=>'q3', 'm'=>'q3', 'n'=>'q3', 'o'=>'q3', 'p'=>'q3', 'q'=>'q3', 'r'=>'q3', 's'=>'q3', 't'=>'q3', 'u'=>'q3', 'v'=>'q3', 'w'=>'q3', 'x'=>'q3', 'y'=>'q3', 'z'=>'q3', 0 => 'q3', 1 => 'q3', 2 => 'q3', 3 => 'q3', 4 => 'q3', 5 => 'q3', 6 => 'q3', 7 => 'q3', 8 => 'q3', 9 => 'q3'),
-             
-             //ograma
+              'q33'=>array('a'=>'q3', 'b'=>'q3', 'c'=>'q3', 'd'=>'q3', 'e'=>'q3','f'=> 'q3', 'g'=>'q3', 'h'=>'q3','i'=>'q3', 'j'=>'q3', 'k'=>'q3', 'l'=>'q3', 'm'=>'q3', 'n'=>'q3', 'o'=>'q34', 'p'=>'q3', 'q'=>'q3', 'r'=>'q3', 's'=>'q3', 't'=>'q3', 'u'=>'q3', 'v'=>'q3', 'w'=>'q3', 'x'=>'q3', 'y'=>'q3', 'z'=>'q3', 0 => 'q3', 1 => 'q3', 2 => 'q3', 3 => 'q3', 4 => 'q3', 5 => 'q3', 6 => 'q3', 7 => 'q3', 8 => 'q3', 9 => 'q3'),
+              'q34'=>array('a'=>'q3', 'b'=>'q3', 'c'=>'q3', 'd'=>'q3', 'e'=>'q3','f'=> 'q3', 'g'=>'q3', 'h'=>'q3','i'=>'q3', 'j'=>'q3', 'k'=>'q3', 'l'=>'q3', 'm'=>'q3', 'n'=>'q3', 'o'=>'q3', 'p'=>'q3', 'q'=>'q3', 'r'=>'q35', 's'=>'q3', 't'=>'q3', 'u'=>'q3', 'v'=>'q3', 'w'=>'q3', 'x'=>'q3', 'y'=>'q3', 'z'=>'q3', 0 => 'q3', 1 => 'q3', 2 => 'q3', 3 => 'q3', 4 => 'q3', 5 => 'q3', 6 => 'q3', 7 => 'q3', 8 => 'q3', 9 => 'q3'),
+              'q35'=>array('a'=>'q3', 'b'=>'q3', 'c'=>'q3', 'd'=>'q3', 'e'=>'q3','f'=> 'q3', 'g'=>'q3', 'h'=>'q3','i'=>'q3', 'j'=>'q3', 'k'=>'q3', 'l'=>'q3', 'm'=>'q3', 'n'=>'q3', 'o'=>'q3', 'p'=>'q3', 'q'=>'q3', 'r'=>'q3', 's'=>'q3', 't'=>'q3', 'u'=>'q3', 'v'=>'q3', 'w'=>'q3', 'x'=>'q3', 'y'=>'q3', 'z'=>'q3', 0 => 'q3', 1 => 'q3', 2 => 'q3', 3 => 'q3', 4 => 'q3', 5 => 'q3', 6 => 'q3', 7 => 'q3', 8 => 'q3', 9 => 'q3'),
+              //ograma
               'q60'=>array('a'=>'q3', 'b'=>'q3', 'c'=>'q3', 'd'=>'q3', 'e'=>'q3','f'=> 'q3', 'g'=>'q61', 'h'=>'q3','i'=>'q3', 'j'=>'q3', 'k'=>'q3', 'l'=>'q3', 'm'=>'q3', 'n'=>'q3', 'o'=>'q3', 'p'=>'q3', 'q'=>'q3', 'r'=>'q3', 's'=>'q3', 't'=>'q3', 'u'=>'q3', 'v'=>'q3', 'w'=>'q3', 'x'=>'q3', 'y'=>'q3', 'z'=>'q3', 0 => 'q3', 1 => 'q3', 2 => 'q3', 3 => 'q3', 4 => 'q3', 5 => 'q3', 6 => 'q3', 7 => 'q3', 8 => 'q3', 9 => 'q3'),
               'q61'=>array('a'=>'q3', 'b'=>'q3', 'c'=>'q3', 'd'=>'q3', 'e'=>'q3','f'=> 'q3', 'g'=>'q3', 'h'=>'q3','i'=>'q3', 'j'=>'q3', 'k'=>'q3', 'l'=>'q3', 'm'=>'q3', 'n'=>'q3', 'o'=>'q3', 'p'=>'q3', 'q'=>'q3', 'r'=>'q62', 's'=>'q3', 't'=>'q3', 'u'=>'q3', 'v'=>'q3', 'w'=>'q3', 'x'=>'q3', 'y'=>'q3', 'z'=>'q3', 0 => 'q3', 1 => 'q3', 2 => 'q3', 3 => 'q3', 4 => 'q3', 5 => 'q3', 6 => 'q3', 7 => 'q3', 8 => 'q3', 9 => 'q3'),
               'q62'=>array('a'=>'q63', 'b'=>'q3', 'c'=>'q3', 'd'=>'q3', 'e'=>'q3','f'=> 'q3', 'g'=>'q3', 'h'=>'q3','i'=>'q3', 'j'=>'q3', 'k'=>'q3', 'l'=>'q3', 'm'=>'q3', 'n'=>'q3', 'o'=>'q3', 'p'=>'q3', 'q'=>'q3', 'r'=>'q3', 's'=>'q3', 't'=>'q3', 'u'=>'q3', 'v'=>'q3', 'w'=>'q3', 'x'=>'q3', 'y'=>'q3', 'z'=>'q3', 0 => 'q3', 1 => 'q3', 2 => 'q3', 3 => 'q3', 4 => 'q3', 5 => 'q3', 6 => 'q3', 7 => 'q3', 8 => 'q3', 9 => 'q3'),
@@ -212,16 +236,20 @@ $delta = array('q0'=>array('a'=>'q3', 'b'=>'q3', 'c'=>'q67', 'd'=>'q3', 'e'=>'q3
               'q37'=>array(0 => 'q37', 1 => 'q37', 2 => 'q37', 3 => 'q37', 4 => 'q37', 5 => 'q37', 6 => 'q37', 7 => 'q37', 8 => 'q37', 9 => 'q37'),
               //+ (38)
               'q38'=>array('+' => 'q39'),
+              'q39'=>array(),
               //- (40)
               'q40'=>array('-' => 'q41'),
+              'q41'=>array(),
               //(/) (43)
               'q43'=>array(), 
                 //pv
               'q44'=>array(), 
               //> (45)
               'q45'=>array('=' => 'q46'), 
+              'q46'=>array(), 
               //< (47)
               'q47'=>array('=' => 'q48'), 
+              'q48'=>array(), 
               // ( (52)
               'q52'=>array(),
               // ) (53)
@@ -242,7 +270,7 @@ $pos2 = 0;
 $tokens = [];
 $index = 0;
 
-$finais = array('q2', 'q3','q32','q36','q37', 'q38', 'q39','q40','q41','q42', 'q43', 'q44','q45','q46','q47', 'q48', 'q49', 'q50','q51','q52','q53', 'q54', 'q55','q56','q57','q58','q65','q66','q70','q72');
+$finais = array('q1', 'q2', 'q3','q32','q35','q36','q37', 'q38', 'q39','q40','q41','q42', 'q43', 'q44','q45','q46','q47', 'q48', 'q49', 'q50','q51','q52','q53', 'q54', 'q55','q56','q57','q58','q65','q66','q70','q72');
 
 $palavra = (isset($_POST['entrada'])?$_POST['entrada']:""); 
 
@@ -274,6 +302,11 @@ for($j = 0; $j < $tam; $j++){
         $token = "";
 
         switch ($estado) {
+            case 'q1':
+                $token = "id";
+                $tokens[$index] = $token;
+                $index++;
+                break;
             case 'q2':
                 $token = "ifi";
                 $tokens[$index] = $token;
@@ -290,6 +323,11 @@ for($j = 0; $j < $tam; $j++){
                 $tokens[$index] = $token;
                 $index++;
                 break;
+            case 'q35':
+                $token ="for";
+                $tokens[$index] = $token;
+                $index++;
+                break;
             case 'q37':
                 $token ="const";
                 $tokens[$index] = $token;
@@ -300,8 +338,18 @@ for($j = 0; $j < $tam; $j++){
                 $tokens[$index] = $token;
                 $index++;
                 break;
+            case 'q39':
+                $token ="incremento";
+                $tokens[$index] = $token;
+                $index++;
+                break;
             case 'q40':
                 $token ="menos";
+                $tokens[$index] = $token;
+                $index++;
+                break;
+            case 'q41':
+                $token ="decremento";
                 $tokens[$index] = $token;
                 $index++;
                 break;
@@ -320,8 +368,18 @@ for($j = 0; $j < $tam; $j++){
                 $tokens[$index] = $token;
                 $index++;
                 break;
+            case 'q46':
+                $token ="maiorigual";
+                $tokens[$index] = $token;
+                $index++;
+                break;
             case 'q47':
                 $token ="menor";
+                $tokens[$index] = $token;
+                $index++;
+                break;
+            case 'q48':
+                $token ="menorigual";
                 $tokens[$index] = $token;
                 $index++;
                 break;
@@ -394,10 +452,13 @@ echo '<br><a href="index.html">digitar novamente</a>';
     foreach($tokens as $tok){
         echo($tok.'<br>');
     }
-    // $entrada = array('programa','id','ap','int','id','fp','ac','ifi','ap','id','maior','const','fp','ac','printa','ap','id','fp','pv','fc','fc','$'); programa nomeprog ( int a ) { if ( a > 2 ) { print ( a ) ; } }
-    // $entrada = array('programa','id','ap','fp','ac','printa','ap','id','fp','pv','fc','fc','$');
+    // $entrada = array('programa','id','ap','int','id','fp','ac','ifi','ap','id','maior','const','fp','ac','printa','ap','id','fp','pv','fc','fc','$'); 
 
-    $entrada = array('programa','id','ap','int','id','fp','ac','ifi','ap','id','maior','const','fp','ac','printa','ap','id','fp','pv','fc','fc','$');
+    // programa nomeprog ( int a ) { for ( int i = 0 ; i < 10 ; i ++ ) { print ( a ) ; } }
+
+    // $entrada = array('programa','id','ap','fp','ac','printa','ap','id','fp','pv','fc','fc','$');       
+
+   //  programa nomeprog ( int a ) { if ( a > 10 ) { print ( a ) ; } }
     if ($slr->parser($tokens))
         echo "\nLinguagem aceita";
     else
