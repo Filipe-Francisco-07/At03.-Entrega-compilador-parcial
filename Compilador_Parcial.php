@@ -424,7 +424,7 @@ echo '<br><a href="index.html">digitar novamente</a>';
     // programa nomeprog ( int a ) { for ( int i = 0 ; i < 10 ; i ++ ) { print ( a ) ; } } 
 
    //  programa nomeprog ( int a ) { if ( a > 10 ) { print ( a ) ; } }
-   //f
+   //final v
     if ($slr->parser($tokens))
         echo "\nLinguagem aceita";
     else
